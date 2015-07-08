@@ -7,7 +7,5 @@ public abstract class MessageSource {
 	public MessageSource(Messageable target){
 		this.target = target;
 	}
-	
-	
 
 }
