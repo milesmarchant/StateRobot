@@ -59,12 +59,4 @@ public class Robot extends StateRobot {
     	}
     }
     
-    //Allows compatibility with triggers, buttons, commands, and LiveWindow.
-    @Override
-    protected void periodic(Mode mode){
-    	Scheduler.getInstance().run();
-    	if(mode == Mode.TEST){
-    		LiveWindow.run();
-    	}
-    }
 }

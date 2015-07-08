@@ -7,6 +7,7 @@ import org.bitbuckets.frc.staterobot.message.Messageable;
 import org.bitbuckets.frc.staterobot.message.RobotModeChange;
 
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
@@ -189,12 +190,17 @@ public class StateRobot extends RobotBase implements Messageable{
     
     /**
      * This method is called equivalently to IterativeRobot's teleopPeriodic, disabledPeriodic, etc.
-     * 
+     * <p>
      * This is not a preferable approach in a state and message driven system and as such should be used sparingly.
-     * 
-     * Example: if the user wished to count the number of packets sent through the dashboard, this method would be appropriate.
+     * <p>
+     * By default, the only functionality is to run the Scheduler and the LiveWindow. You can disable these by overriding the method, but doing
+     * so is not recommended as you may lose functionality of tools such as commands, triggers, and the Livewindow.
      */
     protected void periodic(Mode mode){
+    	Scheduler.getInstance().run();
+    	if(mode == Mode.TEST){
+    		LiveWindow.run();
+    	}
     }
     
     public final void writeMessage(Message m){
