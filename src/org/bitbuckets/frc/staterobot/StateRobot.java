@@ -36,10 +36,10 @@ public class StateRobot extends RobotBase implements Messageable{
     		public void run(){
     			//this will run until the program is terminated
     			Message nextMessage;
-    			while(Thread.interrupted()){
+    			while(!Thread.interrupted()){
     				nextMessage = messages.poll();
     				if(nextMessage != null){
-    					processMessage(nextMessage);
+    					processMessageDefault(nextMessage);
     				} else{
     					try {
 							this.wait(1);
@@ -212,10 +212,21 @@ public class StateRobot extends RobotBase implements Messageable{
      * 
      * @param m
      */
-    protected void processMessage(Message m){
+    protected final void processMessageDefault(Message m){
     	if(m instanceof RobotModeChange){
     		currentMode = ((RobotModeChange)m).mode;
+    		return;
     	}
+    	processMessage(m);
+    }
+    
+    /**
+     * This is the method which the user should override to give Robot message-driven behavior. This is called by the method processMessageDefault, which
+     * uses the template method code pattern; thus, certain message types may not make it to this method.
+     * 
+     * @param m
+     */
+    protected void processMessage(Message m){
     }
     
 }

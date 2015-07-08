@@ -38,7 +38,7 @@ public abstract class StateMachine implements Runnable, Messageable{
     			while(Thread.interrupted()){
     				nextMessage = messages.poll();
     				if(nextMessage != null){
-    					processMessage(nextMessage);
+    					processMessageDefault(nextMessage);
     				} else{
     					try {
 							this.wait(1);
@@ -54,7 +54,7 @@ public abstract class StateMachine implements Runnable, Messageable{
     	
     	currState = states.get(defaultState);
     	
-		while(Thread.interrupted()){
+		while(!Thread.interrupted()){
 			if(nextState != null && nextState != currState){
 				currState.end();
 				currState = nextState;
@@ -74,10 +74,13 @@ public abstract class StateMachine implements Runnable, Messageable{
 		}
 	}
 	
-	protected void processMessage(Message m){
+	protected final void processMessageDefault(Message m){
 		if(m instanceof StateChange){
 			nextState = states.get(((StateChange)m).targetState);
 		}
+		processMessage(m);
 	}
+	
+	protected abstract void processMessage(Message m);
 	
 }
