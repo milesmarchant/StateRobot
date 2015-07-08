@@ -4,6 +4,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.bitbuckets.frc.staterobot.message.Message;
 import org.bitbuckets.frc.staterobot.message.Messageable;
+import org.bitbuckets.frc.staterobot.message.PriorityMessage;
 import org.bitbuckets.frc.staterobot.message.RobotModeChange;
 
 import edu.wpi.first.wpilibj.RobotBase;
@@ -213,6 +214,11 @@ public class StateRobot extends RobotBase implements Messageable{
      * @param m
      */
     protected final void processMessageDefault(Message m){
+		boolean priority = false;
+		if(m instanceof PriorityMessage){
+			priority = true;
+			m = ((PriorityMessage) m).message;
+		}
     	if(m instanceof RobotModeChange){
     		currentMode = ((RobotModeChange)m).mode;
     		return;

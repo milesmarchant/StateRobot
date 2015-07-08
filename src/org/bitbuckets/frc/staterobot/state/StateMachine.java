@@ -6,6 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.bitbuckets.frc.staterobot.Robot;
 import org.bitbuckets.frc.staterobot.message.Message;
 import org.bitbuckets.frc.staterobot.message.Messageable;
+import org.bitbuckets.frc.staterobot.message.PriorityMessage;
 import org.bitbuckets.frc.staterobot.message.StateChange;
 
 public abstract class StateMachine implements Runnable, Messageable{
@@ -75,8 +76,25 @@ public abstract class StateMachine implements Runnable, Messageable{
 	}
 	
 	protected final void processMessageDefault(Message m){
+		boolean priority = false;
+		if(m instanceof PriorityMessage){
+			priority = true;
+			m = ((PriorityMessage) m).message;
+		}
 		if(m instanceof StateChange){
-			nextState = states.get(((StateChange)m).targetState);
+			String targetStateName = ((StateChange)m).targetState;
+			State targetState = states.get(targetStateName);
+			//if the current state disallows transferring to certain other states, check for this.
+			if(currState instanceof BlockingState && priority == false){
+				for(String s: ((BlockingState) currState).blockedStates){
+					if(s.equals(targetStateName)){
+						return;
+					}
+				}
+			}
+			//if the current state is not a blocking state, or the target state is valid, then continue
+			nextState = targetState;
+			return;
 		}
 		processMessage(m);
 	}
