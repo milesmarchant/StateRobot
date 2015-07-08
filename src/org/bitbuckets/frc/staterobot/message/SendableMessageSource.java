@@ -5,6 +5,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 
+/**
+ * Implementation of MessageSource which is activated by pressing a button on SmartDashboard.
+ * 
+ * @author Miles Marchant
+ *
+ */
 public class SendableMessageSource extends MessageSource implements Sendable{
 	
 	Message message;
