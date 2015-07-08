@@ -54,9 +54,6 @@ public class Robot extends StateRobot {
     	if(m instanceof StateChange){
     		//error - something should have passed a TargetedStateChange message
     	}
-    	if(m instanceof RobotModeChange){
-    		super.currentMode = ((RobotModeChange)m).mode;
-    	}
     }
     
 }

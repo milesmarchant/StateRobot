@@ -213,6 +213,9 @@ public class StateRobot extends RobotBase implements Messageable{
      * @param m
      */
     protected void processMessage(Message m){
+    	if(m instanceof RobotModeChange){
+    		currentMode = ((RobotModeChange)m).mode;
+    	}
     }
     
 }
