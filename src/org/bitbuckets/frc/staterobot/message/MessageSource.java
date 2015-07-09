@@ -15,5 +15,7 @@ public abstract class MessageSource {
 	public MessageSource(Messageable target){
 		this.target = target;
 	}
+	
+	public abstract Message getMessage();
 
 }
